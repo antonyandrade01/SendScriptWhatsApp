@@ -1,0 +1,87 @@
+async function enviarScript(scriptText) {
+	const lines = scriptText.split(/[\n\t]+/).map(line => line.trim()).filter(line => line);
+	let main, textarea;
+
+	while (true) {
+		main = document.querySelector("#main");
+		textarea = main.querySelector(`div[contenteditable="true"]`);
+		
+		if (!textarea) throw new Error("Não há uma conversa aberta");
+		
+		for (const line of lines) {
+			console.log(line);
+			
+			textarea.focus();
+			document.execCommand('insertText', false, line);
+			textarea.dispatchEvent(new Event('change', {bubbles: true}));
+			
+			setTimeout(() => {
+				(main.querySelector(`[data-testid="send"]`) || main.querySelector(`[data-icon="send"]`)).click();
+			}, 100);
+			
+			await new Promise(resolve => setTimeout(resolve, 250));
+		}
+	}
+}
+
+enviarScript(`
+Parabéns, Gustavo! Que seu dia seja repleto de alegria e realizações. Abraços, Pedro.
+
+Feliz aniversário, Gustavo! Que cada momento hoje seja especial. Um grande abraço, Pedro.
+
+Gustavo, que este novo ano traga muitas aventuras e felicidade. Feliz aniversário! Abraço, Pedro.
+
+Parabéns pelo seu dia, Gustavo! Que sua vida seja sempre iluminada. Com carinho, Pedro.
+
+Feliz aniversário, Gustavo! Que seus sonhos se realizem e seu coração se encha de alegria. Abraços, Pedro.
+
+Gustavo, que seu dia seja tão incrível quanto você! Feliz aniversário. Abraço, Pedro.
+
+Parabéns, Gustavo! Que a felicidade acompanhe você sempre. Com todo meu carinho, Pedro.
+
+Feliz aniversário, Gustavo! Que cada instante hoje seja inesquecível. Abraços, Pedro.
+
+Gustavo, que este novo ano de vida seja o melhor de todos. Parabéns! Abraço, Pedro.
+
+Parabéns pelo seu dia, Gustavo! Desejo muita saúde, paz e sucesso. Abraços, Pedro.
+
+Feliz aniversário, Gustavo! Que a vida lhe traga muitas surpresas boas. Com carinho, Pedro.
+
+Gustavo, aproveite cada segundo do seu dia especial. Feliz aniversário! Abraço, Pedro.
+
+Parabéns, Gustavo! Que sua jornada seja repleta de conquistas e alegrias. Abraços, Pedro.
+
+Feliz aniversário, Gustavo! Que seu sorriso ilumine todos ao seu redor. Abraço, Pedro.
+
+Gustavo, que a felicidade seja sua melhor amiga neste ano. Parabéns! Com carinho, Pedro.
+
+Parabéns pelo seu aniversário, Gustavo! Que hoje e sempre você tenha motivos para sorrir. Abraços, Pedro.
+
+Feliz aniversário, Gustavo! Que sua vida seja cheia de bons momentos e muita alegria. Abraço, Pedro.
+
+Gustavo, celebre seu dia com muita alegria e amor. Parabéns! Com carinho, Pedro.
+
+Parabéns, Gustavo! Que este novo ciclo traga ainda mais sucesso para você. Abraços, Pedro.
+
+Feliz aniversário, Gustavo! Que cada dia deste ano seja tão especial quanto hoje. Abraço, Pedro.
+
+Gustavo, que seu aniversário seja cheio de amor e felicidade. Parabéns! Com carinho, Pedro.
+
+Parabéns pelo seu dia, Gustavo! Que você tenha muitas realizações neste ano. Abraços, Pedro.
+
+Feliz aniversário, Gustavo! Que sua vida seja sempre abençoada. Abraço, Pedro.
+
+Gustavo, aproveite cada momento do seu dia especial. Parabéns! Com carinho, Pedro.
+
+Parabéns, Gustavo! Que este ano traga muitas oportunidades incríveis. Abraços, Pedro.
+
+Feliz aniversário, Gustavo! Que você continue a inspirar todos ao seu redor. Abraço, Pedro.
+
+Gustavo, que seu dia seja repleto de surpresas boas e alegrias. Parabéns! Com carinho, Pedro.
+
+Parabéns pelo seu aniversário, Gustavo! Desejo muita paz e amor para você. Abraços, Pedro.
+
+Feliz aniversário, Gustavo! Que todos os seus desejos se realizem. Abraço, Pedro.
+
+Gustavo, celebre seu dia com muita alegria e pessoas queridas. Parabéns! Com carinho, Pedro.
+`).then(e => console.log("Mensagens enviadas em loop")).catch(console.error);
